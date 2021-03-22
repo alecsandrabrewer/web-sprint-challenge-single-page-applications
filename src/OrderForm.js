@@ -17,6 +17,12 @@ const RowStyled = styled.label`
     display:flex;
     justify-content:center;
 `
+const ButtonStyled = styled.div `
+    width: 50%;
+    margin: 5% auto;
+
+`
+//////////////////////////////////////////////
 
 const OrderForm = (props) => {
     const {values, submit, update} = props;
@@ -24,7 +30,7 @@ const OrderForm = (props) => {
     const onChange = evt => {
         const {name, value, checked, type} = evt.target
         const val = type === 'checkbox' ? checked : value
-        update (name, value)
+        update (name, val)
         
     }
     const onSubmit = evt => {
@@ -72,6 +78,10 @@ const OrderForm = (props) => {
                 <h3>Special Instructions:</h3>
                 <input type='text' value={values.instructions} placeholder='type here' name='instructions' maxLength='60' onChange={onChange}/> 
             </LabelStyled>
+            <ButtonStyled>
+                <button>PLACE ORDER</button>
+            </ButtonStyled>
+
             
         </FormStyled>
     )

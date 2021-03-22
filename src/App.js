@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import { Route, Link, Switch } from 'react-router-dom';
 import styled from 'styled-components';
 import OrderForm from './OrderForm';
+import { formSchema } from './formSchema';
+import axios from 'axios';
 
 // Styling 
 const DivStyled1 = styled.div `
@@ -29,8 +31,9 @@ const DivStyled2 = styled.div`
   flex-direction: column;
   background: #C0BDB5;
 `
-
-// Form 
+////////////////
+///// Form /////
+////////////////
 
 const initialFormValues = {
   //text input
@@ -54,6 +57,15 @@ const App = () => {
   const [pizzaOrder, setPizzaOrder] = useState([]);
   const [formValues, setFormValues] = useState(initialFormValues);
 
+  //POST helper
+  const postOrder = newOrder => {
+    axios.post('https://reqres.in/api/users', newOrder)
+      .then(({data}) => {
+        setPizzaOrder([...pizzaOrder, data])
+        setFormValues(initialFormValues)
+      })
+  }
+
   //update and submit handlers
   const updateForm = (inputName, inputValue) => {
     setFormValues({...formValues, [inputName]: inputValue})
@@ -66,6 +78,8 @@ const App = () => {
       toppings: ['cheese', 'pepperoni', 'sausage', 'mushrooms', 'onions', 'bacon'].filter(toppings => formValues[toppings]),
       instructions: formValues.instructions.trim()
     }
+    console.log(newOrder)
+    postOrder(newOrder)
   }
 
   return (
